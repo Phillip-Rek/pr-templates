@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Right Wing</title>
+
+    <meta name="description" content="The Right Wing is about food, cooking and kitchen appliances tips and tricks">
+    <meta name="keywords" content="the right wing food kitchen appliances">
+
+    <script src="./bootstrap-5.2.0-dist//js//bootstrap.min.js" defer></script>
+    <link rel="stylesheet" href="./bootstrap-5.2.0-dist/css//bootstrap.min.css">
+
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body style="background-color: rgb(221, 221, 221);">
+
+    {% include("./navbar.html") %}
+
+
+    <div style="width: 100%; box-shadow: rgb(172, 172, 172) 0px 4px 5px;">
+        <div
+            style="clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 70%); height: 500px; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(200deg, rgb(163, 0, 136), rgb(32, 0, 121));">
+
+            <h1 style="font-size: 3rem; padding: 5px; text-align: center;">The Right Wing</h1>
+
+
+        </div>
+    </div>
+
+    <div
+        style="background-color: blueviolet; width: 70%; min-height: 100px;  position: relative; top: -150px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+        <h2 style="color: #ffff; text-align: center;">With Phillip Rekhotho</h2>
+    </div>
+
+    <div
+        style="display: flex; justify-content: center; flex-wrap: wrap; position: relative; top: -70px; border-radius: 10px; box-shadow: rgb(140, 160, 160) 0px 0px 7px; background-color: #ffff; padding: 20px; min-width: 50%; max-width: 90%;">
+        <img src="./imgs/the-right-wing-logo.png" alt="The Right Wing logo" width="300px" style="border-radius: 10px;"
+            loading="lazy">
+        <div style="width: 300px; padding: 0px 10px;display: flex; align-items: center;">
+            <p style="text-align: center;">
+                At The Right Wing you will find content about
+                food, cooking and kitchen appliances.
+
+                We will be discussing some of the sciences applied in our
+                kitchen appliances and also help you understand your kitchen appliances better.
+            </p>
+        </div>
+    </div>
+
+    <div class="imgs-row">
+        <img src="./imgs/30-aug/cooking-beef-steak-barbecue-grill-dreamstime.jpg" height="350px"
+            style="margin: 10px; border-radius: 10px;" loading="lazy">
+        <img src="./imgs/30-aug/beef-cut-dreamstime.jpg" height="350px" style="margin: 10px; border-radius: 10px;">
+        <img src="./imgs/30-aug/beef-fillet-grill-dreamstime.jpg" height="350px"
+            style="margin: 10px; border-radius: 10px;">
+    </div>
+
+    <div style="display: flex; justify-content: center; flex-wrap: wrap; align-items: center;
+            padding: 20px; width: 50%; background-color: rgb(245, 245, 245);
+            border-radius: 10px; position: relative; min-width: 300px; 
+            box-shadow: rgb(146, 146, 146) 0px 0px 7px;">
+        <div style="height: 100px;width: 100px; border-radius: 50%; overflow: hidden; padding: 0px 60;">
+            <img src="./phillip-rekhotho-at-ntshuxi-combined.jpg" alt="The Right Wing admin" width="100px"
+                loading="lazy">
+        </div>
+
+        <div style="width: 300px; padding: 0px 10px;display: flex; align-items: center;">
+            <p style="text-align: center;">
+                Hi, I'm Phillip and I'm the admin of The Right Wing.
+                I love cooking and food and I know you do too,
+                that's why I want you to jump into this journey with me and
+                learn about your kitchen appliances and food.
+            </p>
+        </div>
+    </div>
+
+    {% include("./footer.html") %}
+
+
+</body>
+
+</html>

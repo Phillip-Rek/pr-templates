@@ -1,0 +1,27 @@
+{% template footer(arr) %}
+
+    {% if(arr[0] === "Flame-") %}
+        <p>{{ arr[0] }}</p>
+    {% else if(5 === 5) %}
+        <p>sorry</p>
+    {% else %}
+        <p>error</p>
+    {% end_if %}
+
+    <!-- {% switch(page) %}
+
+        {% case "a" %} 
+            <p>first</p>
+
+        {% case "b" %} 
+            <p>second</p>
+
+        {% default %} 
+            <p>third</p>
+
+    {% end_switch %} -->
+
+{% end_template %}
+
+
+{% call: footer(["Flame", "2024"]) %}
