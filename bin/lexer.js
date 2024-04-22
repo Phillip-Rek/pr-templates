@@ -234,6 +234,10 @@ var Lexer = /** @class */ (function () {
                 return false;
             var match = this.src.substring(0, this.src.search("%}") + 2);
             this.createToken("TemplateCall", match);
+            if (match.search("\n") !== -1) {
+                this.line += ((match.split("\n").length) - 1);
+                this.col = match.substring(match.lastIndexOf("\n"), match.length).length;
+            }
             return true;
         },
         enumerable: false,
@@ -247,6 +251,10 @@ var Lexer = /** @class */ (function () {
                 return false;
             var match = this.src.substring(0, this.src.indexOf("%}") + 2);
             this.createToken("Template", match || "");
+            if (match.search("\n") !== -1) {
+                this.line += ((match.split("\n").length) - 1);
+                this.col = match.substring(match.lastIndexOf("\n"), match.length).length;
+            }
             return true;
         },
         enumerable: false,

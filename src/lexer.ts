@@ -162,7 +162,6 @@ export class Lexer {
         if (!this.is(end_template_reg)) return false;
 
         const match = this.src.match(end_template_reg);
-
         this.createToken("EndTemplate", match && match[0] || "");
 
         return true;
@@ -174,6 +173,12 @@ export class Lexer {
 
         const match = this.src.substring(0, this.src.search("%}") + 2);
         this.createToken("TemplateCall", match);
+
+        if (match.search("\n") !== -1) {
+            this.line += ((match.split("\n").length) - 1)
+            this.col = match.substring(match.lastIndexOf("\n"), match.length).length
+        }
+
         return true;
     }
 
@@ -183,6 +188,12 @@ export class Lexer {
 
         const match = this.src.substring(0, this.src.indexOf("%}") + 2);
         this.createToken("Template", match || "");
+
+        if (match.search("\n") !== -1) {
+            this.line += ((match.split("\n").length) - 1)
+            this.col = match.substring(match.lastIndexOf("\n"), match.length).length
+        }
+
         return true;
     }
 
@@ -192,6 +203,7 @@ export class Lexer {
         const match = this.src.match(dynamic_data_reg);
         const val = match && match[0] || ""
         this.createToken("DynamicData", val)
+
         return true;
     }
 
