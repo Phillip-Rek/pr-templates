@@ -46,7 +46,7 @@ export class Lexer {
     private line = 1
     private col = 0
     private token: Token | null = null;
-    constructor(private src: string) {
+    constructor(private src: string, private filePath: string) {
         while (!this.error.length && !this.eof) {
             switch (true) {
                 case this.forStatenemt:
@@ -74,7 +74,7 @@ export class Lexer {
                 case this.docType: { this.tokenPush() } break;
                 case this.includes: { this.handleIncludes() } break;
                 default: {
-                    const msg = `[Lexer] Unexpected character, ${this.src[0]}, at line ${this.line}, col ${this.col}...src: ${this.src.slice(0, 50)}`
+                    const msg = `[Lexer] Unexpected character, ${this.src[0]}, at line ${this.line}, col ${this.col}, file ${this.filePath} ...src: ${this.src.slice(0, 50)}`
                     this.error.push(msg)
                 } break;
             }
@@ -93,7 +93,7 @@ export class Lexer {
         const val = match && match[0] || ""
         const file = val.slice(val.indexOf('"') + 1, val.lastIndexOf('"')).trim()
         const code = fs.readFileSync(file, { encoding: "utf8" })
-        const lex = new Lexer(code)
+        const lex = new Lexer(code, file);
         this.error = this.error.concat(lex.error)
         this.tokens = this.tokens.concat(lex.tokens)
         this.eat(val)
@@ -130,7 +130,6 @@ export class Lexer {
     }
 
     private skipLine = () => {
-
         this.createToken("Text", "\n");
         if (this.token) this.tokens.push(this.token);
 
@@ -138,8 +137,6 @@ export class Lexer {
         this.line++;
         this.col = 0;
         this.src = this.src.substr("\n".length);
-
-
     }
 
     private is = (query: RegExp | string) =>
@@ -435,16 +432,27 @@ export class Lexer {
     private skipWhiteSpace = () => {
 
         const whiteS = this.src.match(/[ \s]+/)
-        const val = whiteS && whiteS[0] || ""
+        let val = whiteS && whiteS[0] || ""
+
+        if (val.search("\n") !== -1) {
+            val = val.substring(0, val.search("\n"));
+        }
 
         this.createToken("Text", val)
         if (this.token) this.tokens.push(this.token);
+
+        if (val.search("\n") !== -1)
+            console.log(this.token);
 
         this.eat(val);
     }
 
     private get endLine() {
         if (!this.has("\n")) return false
+
+        // if (this.src.match("\n")?.index !== 0)
+        //     console.log(this.src.match("\n"));
+
         if (this.src.match("\n")?.index !== 0) return false
         return true
     }

@@ -44,9 +44,10 @@ var self_close_reg = /(<area|<base|<br|<col|<embed|<hr|<img|<input|<link|<meta|<
 var includes_reg = /{% include[ \s]*\([ \s]*"[ \w\-\_\=\/\+\.\<\>\$\#\@]+"[ \s]*\) %}/;
 var comment_reg = /<!--/;
 var Lexer = /** @class */ (function () {
-    function Lexer(src) {
+    function Lexer(src, filePath) {
         var _this = this;
         this.src = src;
+        this.filePath = filePath;
         this.tokens = [];
         this.cursor = 0;
         this.error = [];
@@ -71,9 +72,14 @@ var Lexer = /** @class */ (function () {
         this.skipWhiteSpace = function () {
             var whiteS = _this.src.match(/[ \s]+/);
             var val = whiteS && whiteS[0] || "";
+            if (val.search("\n") !== -1) {
+                val = val.substring(0, val.search("\n"));
+            }
             _this.createToken("Text", val);
             if (_this.token)
                 _this.tokens.push(_this.token);
+            if (val.search("\n") !== -1)
+                console.log(_this.token);
             _this.eat(val);
         };
         while (!this.error.length && !this.eof) {
@@ -152,7 +158,7 @@ var Lexer = /** @class */ (function () {
                     break;
                 default:
                     {
-                        var msg = "[Lexer] Unexpected character, " + this.src[0] + ", at line " + this.line + ", col " + this.col + "...src: " + this.src.slice(0, 50);
+                        var msg = "[Lexer] Unexpected character, " + this.src[0] + ", at line " + this.line + ", col " + this.col + ", file " + this.filePath + " ...src: " + this.src.slice(0, 50);
                         this.error.push(msg);
                     }
                     break;
@@ -172,7 +178,7 @@ var Lexer = /** @class */ (function () {
         var val = match && match[0] || "";
         var file = val.slice(val.indexOf('"') + 1, val.lastIndexOf('"')).trim();
         var code = fs.readFileSync(file, { encoding: "utf8" });
-        var lex = new Lexer(code);
+        var lex = new Lexer(code, file);
         this.error = this.error.concat(lex.error);
         this.tokens = this.tokens.concat(lex.tokens);
         this.eat(val);
@@ -532,6 +538,8 @@ var Lexer = /** @class */ (function () {
             var _a;
             if (!this.has("\n"))
                 return false;
+            // if (this.src.match("\n")?.index !== 0)
+            //     console.log(this.src.match("\n"));
             if (((_a = this.src.match("\n")) === null || _a === void 0 ? void 0 : _a.index) !== 0)
                 return false;
             return true;
