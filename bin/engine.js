@@ -36,7 +36,7 @@ function render(filePath, srcCode, data) {
         //@ts-ignore
         return templates.get(filePath)("", data);
     }
-    var lexer = new lexer_1.Lexer(srcCode);
+    var lexer = new lexer_1.Lexer(srcCode, filePath);
     var tokens = lexer.tokens;
     var parser = new parser_1.Parser(tokens, true);
     var ast = parser.ast;
@@ -62,7 +62,7 @@ function engine(filePath, data, callback) {
 }
 exports.engine = engine;
 function compiler(srcCode, data, filePath) {
-    var lexer = new lexer_1.Lexer(srcCode);
+    var lexer = new lexer_1.Lexer(srcCode, filePath);
     var tokens = lexer.tokens;
     var parser = new parser_1.Parser(tokens, true);
     var ast = parser.ast;

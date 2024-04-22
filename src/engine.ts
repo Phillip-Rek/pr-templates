@@ -18,7 +18,7 @@ function render(filePath: string, srcCode: string, data: {}) {
         return templates.get(filePath)("", data)
     }
 
-    const lexer = new Lexer(srcCode)
+    const lexer = new Lexer(srcCode, filePath);
     let tokens = lexer.tokens
 
     const parser = new Parser(tokens, true);
@@ -53,7 +53,7 @@ export function engine(
 
 
 export function compiler(srcCode: string, data: {}, filePath: string) {
-    const lexer = new Lexer(srcCode)
+    const lexer = new Lexer(srcCode, filePath)
     let tokens = lexer.tokens
 
     const parser = new Parser(tokens, true)
