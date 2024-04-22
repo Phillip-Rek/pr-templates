@@ -1,22 +1,20 @@
 
-# <div align="center"> Perthite </div>
+# <div align="center"> Pr Templates </div>
 
-Perthite2 is a simplified, lightweight JavaScript Templating Engine.
+- Pr Templates is a simplified, lightweight JavaScript Templating Engine. 
+- This templating engine can work in Node Js, with Express JS.
 
 ## Homepage 
 [phillip-rek.github.io](https://Phillip-Rek.github.io/)
 
-## Blog / Site
-[Check our site](https://www.philliprekhotho.com/posts)
-
 ## Repository
-[github.com/Phillip-Rek/perthite](https://github.com/Phillip-Rek/perthite)
+[github.com/Phillip-Rek/perthite](https://github.com/Phillip-Rek/pr-templates)
 
 ## Installing 
 First you need to have Nodejs installed in your machine. If you have nodejs then Go to your terminal and run npm i perthite
   
 ## Documentation
-Documentation can be found on the [wiki](https://github.com/Phillip-Rek/perthite/wiki) page as well as on the [github page](https://Phillip-Rek.github.io/)
+Documentation can be found on the [wiki](https://github.com/Phillip-Rek/pr-templates/wiki) page as well as on the [github page](https://Phillip-Rek.github.io/)
 
 ## Bug Reporting
 
