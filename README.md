@@ -10,8 +10,23 @@
 ## Repository
 [github.com/Phillip-Rek/perthite](https://github.com/Phillip-Rek/pr-templates)
 
+##  Usage Example 
+
+```
+{% template navBar(pages) %}
+    <nav>
+        {% for(let page of pages) %}
+            <a href="${page.url}">{{ page.name }}</a>
+        {% end_for %} 
+    </nav>
+{% end_template %}
+
+{% call: navBar([{ name: "Home", url: "/" }, { name: "About", url: "about" }]) %}
+```
+
 ## Installing 
-First you need to have Nodejs installed in your machine. If you have nodejs then Go to your terminal and run npm i perthite
+
+```npm i perthite-2```
   
 ## Documentation
 Documentation can be found on the [wiki](https://github.com/Phillip-Rek/pr-templates/wiki) page as well as on the [github page](https://Phillip-Rek.github.io/)
