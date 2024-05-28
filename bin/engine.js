@@ -44,9 +44,6 @@ function render(filePath, srcCode, data, views) {
     var gen = new generator_1.Generator(ast, data, filePath);
     var output = optimizeOutput(gen.output);
     if (lexer.error.length || parser.errors.length || gen.errors.length) {
-        // console.error(lexer.error)
-        // console.error(parser.errors)
-        // console.error(gen.errors)
         throw new Error(lexer.error.join("\n") + parser.errors.join("\n") + gen.errors.join("\n"));
     }
     templates.set(filePath, new Function("template", "data", output));
@@ -55,15 +52,20 @@ function render(filePath, srcCode, data, views) {
 }
 // export let viewsDirectory: string = "";
 function engine(app) {
-    // if (!viewsDirectory.length) {
-    //     // viewsDirectory = filePath.substring
-    //     console.log(__dirname)
-    // }
-    // console.log(__dirname)
-    // console.log(filePath)
     return function (filePath, data, callback) {
-        //@ts-ignore
-        var views = "./" + app.locals.settings.views || "";
+        var views = "";
+        if (!app.locals.settings.views) {
+            // app.set('view engine', 'html');
+            app.set('views', 'views');
+        }
+        if (typeof app.locals.settings.views === "string") {
+            if (app.locals.settings.views.startsWith("/")) {
+                views = app.locals.settings.views || "";
+            }
+            else {
+                views = "./" + app.locals.settings.views || "";
+            }
+        }
         fs.readFile(filePath, { encoding: "utf8" }, function (err, content) {
             if (err)
                 return callback(err);
