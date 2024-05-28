@@ -1,6 +1,6 @@
 {
   "name": "perthite-2",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Perthite2 is a simplified, lightweight JavaScript Templating Engine.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,20 +1,25 @@
 "use strict";
 var express = require("express");
 var app = express();
-var engine = require("../index");
+// const engine = require("../index");
 
-app.engine('html', engine);
+// import { engine } from "../index";
+const { engine } = require("../index");
+
+app.engine('html', engine(app));
 app.set('view engine', 'html');
 app.set('views', 'views');
 
-app.use((req, res) => {
-    console.log(req.body)
-})
+// app.use((req, res) => {
+//     console.log(req.body)
+// })
+
+// console.log(app.locals.settings.views)
 
 var domainName = "http://localhost:3000";
 
 app.get("/", function (req, res) {
-    res.render("main", { message: "", domainName });
+    res.render("home", { message: "", domainName });
 });
 
 app.get("/main", function (req, res) {

@@ -46,7 +46,8 @@ export class Lexer {
     private line = 1
     private col = 0
     private token: Token | null = null;
-    constructor(private src: string, private filePath: string) {
+    constructor(private src: string, private filePath: string, private views: string) {
+
         while (!this.error.length && !this.eof) {
             switch (true) {
                 case this.forStatenemt:
@@ -92,8 +93,18 @@ export class Lexer {
         const match = this.src.match(includes_reg)
         const val = match && match[0] || ""
         const file = val.slice(val.indexOf('"') + 1, val.lastIndexOf('"')).trim()
-        const code = fs.readFileSync(file, { encoding: "utf8" })
-        const lex = new Lexer(code, file);
+
+        let fileSrc = "";
+
+        if (file.startsWith("./")) {
+            fileSrc = this.views + "/" + file.substring(2, file.length);
+        }
+        else {
+            fileSrc = this.views + "/" + file;
+        }
+
+        const code = fs.readFileSync(fileSrc, { encoding: "utf8" })
+        const lex = new Lexer(code, file, this.views);
         this.error = this.error.concat(lex.error)
         this.tokens = this.tokens.concat(lex.tokens)
         this.eat(val)

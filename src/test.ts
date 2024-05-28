@@ -7,13 +7,14 @@ const templates: Map<string, Function> = new Map()
 
 function fakeRender(filePath: string, srcCode: string, data: {}) {
 
+    console.log(filePath);
 
     if (templates.get(filePath)) {
         //@ts-ignore
         return templates.get(filePath)("", data)
     }
 
-    const lexer = new Lexer(srcCode)
+    const lexer = new Lexer(srcCode, filePath, "");
     let tokens = lexer.tokens
 
     const parser = new Parser(tokens, true);

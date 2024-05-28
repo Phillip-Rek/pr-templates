@@ -44,10 +44,11 @@ var self_close_reg = /(<area|<base|<br|<col|<embed|<hr|<img|<input|<link|<meta|<
 var includes_reg = /{% include[ \s]*\([ \s]*"[ \w\-\_\=\/\+\.\<\>\$\#\@]+"[ \s]*\) %}/;
 var comment_reg = /<!--/;
 var Lexer = /** @class */ (function () {
-    function Lexer(src, filePath) {
+    function Lexer(src, filePath, views) {
         var _this = this;
         this.src = src;
         this.filePath = filePath;
+        this.views = views;
         this.tokens = [];
         this.cursor = 0;
         this.error = [];
@@ -177,8 +178,15 @@ var Lexer = /** @class */ (function () {
         var match = this.src.match(includes_reg);
         var val = match && match[0] || "";
         var file = val.slice(val.indexOf('"') + 1, val.lastIndexOf('"')).trim();
-        var code = fs.readFileSync(file, { encoding: "utf8" });
-        var lex = new Lexer(code, file);
+        var fileSrc = "";
+        if (file.startsWith("./")) {
+            fileSrc = this.views + "/" + file.substring(2, file.length);
+        }
+        else {
+            fileSrc = this.views + "/" + file;
+        }
+        var code = fs.readFileSync(fileSrc, { encoding: "utf8" });
+        var lex = new Lexer(code, file, this.views);
         this.error = this.error.concat(lex.error);
         this.tokens = this.tokens.concat(lex.tokens);
         this.eat(val);

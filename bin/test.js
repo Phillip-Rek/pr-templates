@@ -5,11 +5,12 @@ var parser_1 = require("./parser");
 var generator_1 = require("./generator");
 var templates = new Map();
 function fakeRender(filePath, srcCode, data) {
+    console.log(filePath);
     if (templates.get(filePath)) {
         //@ts-ignore
         return templates.get(filePath)("", data);
     }
-    var lexer = new lexer_1.Lexer(srcCode);
+    var lexer = new lexer_1.Lexer(srcCode, filePath, "");
     var tokens = lexer.tokens;
     var parser = new parser_1.Parser(tokens, true);
     var ast = parser.ast;

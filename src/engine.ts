@@ -12,13 +12,15 @@ const optimizeOutput = (output: string) => {
 
 const templates: Map<string, Function> = new Map()
 
-function render(filePath: string, srcCode: string, data: {}) {
+function render(filePath: string, srcCode: string, data: {}, views: string) {
     if (templates.get(filePath) && process.env.NODE_ENV?.search(/production/i) !== -1) {
         //@ts-ignore
         return templates.get(filePath)("", data)
     }
 
-    const lexer = new Lexer(srcCode, filePath);
+    // const viewsDirectory = filePath.substring
+
+    const lexer = new Lexer(srcCode, filePath, views);
     let tokens = lexer.tokens
 
     const parser = new Parser(tokens, true);
@@ -38,30 +40,46 @@ function render(filePath: string, srcCode: string, data: {}) {
     //@ts-ignore
     return templates.get(filePath)("", data)
 }
-
+// export let viewsDirectory: string = "";
 export function engine(
-    filePath: string,
-    data: {},
-    callback: (arg: any, arg2?: any) => string
+    app: {}
 ) {
-    fs.readFile(filePath, { encoding: "utf8" }, (err, content) => {
-        if (err) return callback(err);
-        let res = render(filePath, content, data);
-        return callback(null, res);
-    });
+
+    // if (!viewsDirectory.length) {
+    //     // viewsDirectory = filePath.substring
+    //     console.log(__dirname)
+    // }
+
+    // console.log(__dirname)
+    // console.log(filePath)
+
+
+    return (filePath: string, data: {}, callback: (arg: any, arg2?: any) => string) => {
+
+        //@ts-ignore
+        const views = "./" + app.locals.settings.views || "";
+
+        fs.readFile(filePath, { encoding: "utf8" }, (err, content) => {
+            if (err) return callback(err);
+            let res = render(filePath, content, data, views);
+            return callback(null, res);
+        });
+
+    }
 }
 
 
-export function compiler(srcCode: string, data: {}, filePath: string) {
-    const lexer = new Lexer(srcCode, filePath)
-    let tokens = lexer.tokens
+// export function compiler(srcCode: string, data: {}, filePath: string) {
 
-    const parser = new Parser(tokens, true)
-    let ast = parser.ast
+//     const lexer = new Lexer(srcCode, filePath)
+//     let tokens = lexer.tokens
 
-    const gen = new Generator(ast, data, filePath);
-    let output = gen.output
+//     const parser = new Parser(tokens, true)
+//     let ast = parser.ast
 
-    let template = new Function("template", "data", output)
-    return template("", data)
-}
+//     const gen = new Generator(ast, data, filePath);
+//     let output = gen.output
+
+//     let template = new Function("template", "data", output)
+//     return template("", data)
+// }

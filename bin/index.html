@@ -1,27 +1,17 @@
-{% template footer(arr) %}
+{% template navBar(pages) %}
+    <nav>
+        {% for(let page of pages) %}
+            <a href="${page.url}">{{ page.name }}</a>
+        {% end_for %}
+    </nav>
+{% end_template %} 
 
-    {% if(arr[0] === "Flame-") %}
-        <p>{{ arr[0] }}</p>
-    {% else if(5 === 5) %}
-        <p>sorry</p>
-    {% else %}
-        <p>error</p>
-    {% end_if %}
-
-    <!-- {% switch(page) %}
-
-        {% case "a" %} 
-            <p>first</p>
-
-        {% case "b" %} 
-            <p>second</p>
-
-        {% default %} 
-            <p>third</p>
-
-    {% end_switch %} -->
-
-{% end_template %}
-
-
-{% call: footer(["Flame", "2024"]) %}
+{% call: navBar([
+            { name: "Home", url: "/" }, 
+            { 
+                name: "About", 
+                url: 'about' +
+                "aboutaboutabouta"+
+                "boutaboutabout" 
+            } ]) 
+    %}
