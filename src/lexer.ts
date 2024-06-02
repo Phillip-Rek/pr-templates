@@ -253,10 +253,6 @@ export class Lexer {
         }
 
         const header = this.src.substring(0, this.src.search(/%}/) + 2);
-
-        // const match = this.src.match(if_reg)
-        // const val = match && match[0] || ""
-        // this.createToken("IfStatement", val)
         this.createToken("IfStatement", header)
         return true
     }
@@ -271,10 +267,6 @@ export class Lexer {
         }
 
         const header = this.src.substring(0, this.src.search(/%}/) + 2);
-
-        // const match = this.src.match(if_reg)
-        // const val = match && match[0] || ""
-        // this.createToken("IfStatement", val)
         this.createToken("ElseIfStatement", header)
         return true
     }
@@ -410,18 +402,15 @@ export class Lexer {
         let match: RegExpMatchArray | null;
         let val: string | null;
 
-
         if (this.is(attr_reg)) {
             match = this.src.match(attr_reg)
             val = match && match[0] || ""
             this.createToken("Attribute", val)
-            // return true
         }
         else if (this.is(attr_reg_2)) {
             match = this.src.match(attr_reg_2)
             val = match && match[0] || ""
             this.createToken("Attribute", val)
-            // return true
         }
         else return false;
 
@@ -460,11 +449,6 @@ export class Lexer {
     }
 
     private get whiteSpace() {
-
-        // console.log("Lexer -> whiteSpace()")
-
-        // console.log(`line ${this.line}, col ${this.col}`)
-
         return this.is(/[ \s]+/);
     }
 
@@ -480,17 +464,11 @@ export class Lexer {
         this.createToken("Text", val)
         if (this.token) this.tokens.push(this.token);
 
-        // if (val.search("\n") !== -1)
-        //     console.log(this.token);
-
         this.eat(val);
     }
 
     private get endLine() {
         if (!this.has("\n")) return false
-
-        // if (this.src.match("\n")?.index !== 0)
-        //     console.log(this.src.match("\n"));
 
         if (this.src.match("\n")?.index !== 0) return false
         return true
