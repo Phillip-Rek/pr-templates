@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.engine = void 0;
+exports.compiler = exports.engine = void 0;
 var lexer_1 = require("./lexer");
 var parser_1 = require("./parser");
 var generator_1 = require("./generator");
@@ -33,10 +33,9 @@ var templates = new Map();
 function render(filePath, srcCode, data, views) {
     var _a;
     if (templates.get(filePath) && ((_a = process.env.NODE_ENV) === null || _a === void 0 ? void 0 : _a.search(/production/i)) !== -1) {
-        //@ts-ignore
-        return templates.get(filePath)("", data);
+        var template_1 = templates.get(filePath);
+        return template_1 && template_1("", data);
     }
-    // const viewsDirectory = filePath.substring
     var lexer = new lexer_1.Lexer(srcCode, filePath, views);
     var tokens = lexer.tokens;
     var parser = new parser_1.Parser(tokens, true);
@@ -47,15 +46,13 @@ function render(filePath, srcCode, data, views) {
         throw new Error(lexer.error.join("\n") + parser.errors.join("\n") + gen.errors.join("\n"));
     }
     templates.set(filePath, new Function("template", "data", output));
-    //@ts-ignore
-    return templates.get(filePath)("", data);
+    var template = templates.get(filePath);
+    return template && template("", data);
 }
-// export let viewsDirectory: string = "";
 function engine(app) {
     return function (filePath, data, callback) {
         var views = "";
         if (!app.locals.settings.views) {
-            // app.set('view engine', 'html');
             app.set('views', 'views');
         }
         if (typeof app.locals.settings.views === "string") {
@@ -63,7 +60,7 @@ function engine(app) {
                 views = app.locals.settings.views || "";
             }
             else {
-                views = "./" + app.locals.settings.views || "";
+                views = app.locals.settings.views || "";
             }
         }
         fs.readFile(filePath, { encoding: "utf8" }, function (err, content) {
@@ -75,13 +72,15 @@ function engine(app) {
     };
 }
 exports.engine = engine;
-// export function compiler(srcCode: string, data: {}, filePath: string) {
-//     const lexer = new Lexer(srcCode, filePath)
-//     let tokens = lexer.tokens
-//     const parser = new Parser(tokens, true)
-//     let ast = parser.ast
-//     const gen = new Generator(ast, data, filePath);
-//     let output = gen.output
-//     let template = new Function("template", "data", output)
-//     return template("", data)
-// }
+function compiler(srcCode, data, filePath, views) {
+    if (views === void 0) { views = ""; }
+    var lexer = new lexer_1.Lexer(srcCode, filePath, views);
+    var tokens = lexer.tokens;
+    var parser = new parser_1.Parser(tokens, true);
+    var ast = parser.ast;
+    var gen = new generator_1.Generator(ast, data, filePath);
+    var output = gen.output;
+    var template = new Function("template", "data", output);
+    return template("", data);
+}
+exports.compiler = compiler;

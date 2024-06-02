@@ -97,7 +97,7 @@ export class Lexer {
         let fileSrc = "";
 
         if (file.startsWith("./")) {
-            fileSrc = this.views + "/" + file.substring(2, file.length);
+            fileSrc = this.views && this.views + "/" + file.substring(2, file.length) || file;
         }
         else {
             fileSrc = this.views + "/" + file;
@@ -464,8 +464,8 @@ export class Lexer {
         this.createToken("Text", val)
         if (this.token) this.tokens.push(this.token);
 
-        if (val.search("\n") !== -1)
-            console.log(this.token);
+        // if (val.search("\n") !== -1)
+        //     console.log(this.token);
 
         this.eat(val);
     }

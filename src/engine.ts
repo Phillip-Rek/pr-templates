@@ -42,17 +42,15 @@ export function engine(app: { set: (key: string, val: unknown) => {}, locals: { 
     return (filePath: string, data: {}, callback: (arg: any, arg2?: any) => string) => {
 
         let views = "";
-        if (!app.locals.settings.views) {
-            // app.set('view engine', 'html');
-            app.set('views', 'views');
-        }
+
+        if (!app.locals.settings.views) { app.set('views', 'views'); }
 
         if (typeof app.locals.settings.views === "string") {
             if (app.locals.settings.views.startsWith("/")) {
                 views = app.locals.settings.views || "";
             }
             else {
-                views = "./" + app.locals.settings.views || "";
+                views = app.locals.settings.views || "";
             }
         }
 

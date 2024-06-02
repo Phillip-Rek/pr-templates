@@ -1,26 +1,6 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Generator = void 0;
-var acorn = __importStar(require("acorn"));
 var Generator = /** @class */ (function () {
     function Generator(ast, data, filePath) {
         var _this = this;
@@ -92,7 +72,6 @@ var Generator = /** @class */ (function () {
             var code = predicate + "{}";
             var tmp = "let template;\n";
             try {
-                acorn.parse(code, { ecmaVersion: "latest" });
                 _this.output += "\n" + predicate + "{\n";
                 _this.genChildren(node);
                 _this.output += "\n}\n";
@@ -106,12 +85,6 @@ var Generator = /** @class */ (function () {
             var predicate = node.predicate.slice(2, -2).trim();
             var code = predicate + "{}";
             try {
-                if (code.search("else") !== -1) {
-                    acorn.parse("if(1===1){ hello(5)\n} " + code, { ecmaVersion: "latest" });
-                }
-                else {
-                    acorn.parse(code, { ecmaVersion: "latest" });
-                }
                 _this.output += "\n" + predicate + "{\n";
                 _this.genChildren(node);
                 _this.output += "\n}\n";

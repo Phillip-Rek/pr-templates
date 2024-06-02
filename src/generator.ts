@@ -1,6 +1,5 @@
 import { writeFileSync } from "fs";
 import { HTMLElement, Statement, TextNode } from "./parser";
-import * as acorn from "acorn";
 
 export class Generator {
     errors: string[] = []
@@ -117,8 +116,6 @@ export class Generator {
         let tmp = "let template;\n"
 
         try {
-            acorn.parse(code, { ecmaVersion: "latest" });
-
             this.output += "\n" + predicate + "{\n"
             this.genChildren(node)
 
@@ -136,13 +133,6 @@ export class Generator {
         const code = predicate + "{}";
 
         try {
-
-            if (code.search("else") !== -1) {
-                acorn.parse("if(1===1){ hello(5)\n} " + code, { ecmaVersion: "latest" });
-            }
-            else {
-                acorn.parse(code, { ecmaVersion: "latest" });
-            }
 
             this.output += "\n" + predicate + "{\n"
             this.genChildren(node)

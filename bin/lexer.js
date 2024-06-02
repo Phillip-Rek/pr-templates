@@ -79,8 +79,8 @@ var Lexer = /** @class */ (function () {
             _this.createToken("Text", val);
             if (_this.token)
                 _this.tokens.push(_this.token);
-            if (val.search("\n") !== -1)
-                console.log(_this.token);
+            // if (val.search("\n") !== -1)
+            //     console.log(this.token);
             _this.eat(val);
         };
         while (!this.error.length && !this.eof) {
@@ -180,7 +180,7 @@ var Lexer = /** @class */ (function () {
         var file = val.slice(val.indexOf('"') + 1, val.lastIndexOf('"')).trim();
         var fileSrc = "";
         if (file.startsWith("./")) {
-            fileSrc = this.views + "/" + file.substring(2, file.length);
+            fileSrc = this.views && this.views + "/" + file.substring(2, file.length) || file;
         }
         else {
             fileSrc = this.views + "/" + file;
