@@ -40,13 +40,13 @@ function fakeRender(filePath: string, srcCode: string, data: {}) {
 
 
 const src = `
-{% include("./footer.html") %}
+{% include("./index.html") %}
 
 `
 // const expectedOutput = `0134`
 
 const result = fakeRender(
-    "index.html",
+    "file.html",
     src,
     {
         url: "/"

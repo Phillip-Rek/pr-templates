@@ -25,9 +25,9 @@ function fakeRender(filePath, srcCode, data) {
     //@ts-ignore
     return templates.get(filePath)("", data);
 }
-var src = "\n{% include(\"./footer.html\") %}\n\n";
+var src = "\n{% include(\"./index.html\") %}\n\n";
 // const expectedOutput = `0134`
-var result = fakeRender("index.html", src, {
+var result = fakeRender("file.html", src, {
     url: "/"
 });
 console.log(result);

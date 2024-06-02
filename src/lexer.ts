@@ -46,6 +46,7 @@ export class Lexer {
     private line = 1
     private col = 0
     private token: Token | null = null;
+    private declaredTemplates: Map<string, 1> = new Map();
     constructor(private src: string, private filePath: string, private views: string) {
 
         while (!this.error.length && !this.eof) {
@@ -198,6 +199,21 @@ export class Lexer {
         if (this.src.indexOf("%}") === -1) return false;
 
         const match = this.src.substring(0, this.src.indexOf("%}") + 2);
+
+        const predicate = match.substring(2, match.length - 2).trim();
+
+        if (this.declaredTemplates.get(predicate)) {
+            this.error.push(
+                "Cannot declare a template function, " +
+                predicate + ", more than once, at line " +
+                this.line + ", col " + this.col +
+                ", src: " + match + ", file: " +
+                this.filePath
+            );
+        }
+
+        this.declaredTemplates.set(predicate, 1);
+
         this.createToken("Template", match || "");
 
         if (match.search("\n") !== -1) {
