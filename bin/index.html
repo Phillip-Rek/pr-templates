@@ -1,12 +1,15 @@
 {% template navBar(pages) %}
     <nav>
         {% for(let page of pages) %}
-            <a href="${page.url}">{{ page.name }}</a>
+            {% if(page) %}
+                <a href="${page.url}">{{ page.name }}</a>
+            {% end_if %}
         {% end_for %}
     </nav>
 {% end_template %} 
 
 
+<h1>title</h1>
 {% call: navBar([
             { name: "Home", url: "/" }, 
             { 

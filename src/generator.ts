@@ -7,6 +7,7 @@ export class Generator {
     globalVariables = "";
 
     insideBlockCode = false;
+    nestingLevel = 0;
 
     constructor(private ast: HTMLElement, private data: {}, private filePath: string) {
 
@@ -55,6 +56,7 @@ export class Generator {
         if (node === undefined) return
 
         this.insideBlockCode = true;
+        if (node.name !== "HTMLElement") this.nestingLevel++;
         //@ts-ignore
         for (const child of node.children) {
             //@ts-ignore
@@ -65,6 +67,7 @@ export class Generator {
         }
 
         this.insideBlockCode = false;
+        if (node.name !== "HTMLElement") this.nestingLevel--;
     }
 
     private genHTMLElement = (element: HTMLElement) => {
@@ -116,7 +119,20 @@ export class Generator {
         let tmp = "let template;\n"
 
         try {
+
+            let testCode = this.output + code
+
+            for (let i = 0; i < this.nestingLevel; i++) {
+                testCode += "}";
+            }
+
+            testCode += "\nreturn template;"
+            // check for syntax errors
+            new Function("template", "data", testCode)("", this.data)
+
+
             this.output += "\n" + predicate + "{\n"
+
             this.genChildren(node)
 
             this.output += "\n}\n"
@@ -134,17 +150,29 @@ export class Generator {
 
         try {
 
-            this.output += "\n" + predicate + "{\n"
-            this.genChildren(node)
+            // console.log(this.output + code);
 
-            this.output += "\n}\n"
+            let testCode = this.output + code
+
+            for (let i = 0; i < this.nestingLevel; i++) {
+                testCode += "}";
+            }
+
+            testCode += "\nreturn template;"
+
+            // check for syntax errors
+            new Function("template", "data", testCode)("", this.data)
+
         } catch (error) {
-
-            console.log(error)
-
-            this.errors.push(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
-                `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
+            this.errors.push(error)
+            // this.errors.push(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
+            //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
         }
+
+        this.output += "\n" + predicate + "{\n"
+        this.genChildren(node)
+
+        this.output += "\n}\n"
     }
 
     private genSelfClose = (node: HTMLElement) => {

@@ -11,6 +11,7 @@ var Generator = /** @class */ (function () {
         this.output = "";
         this.globalVariables = "";
         this.insideBlockCode = false;
+        this.nestingLevel = 0;
         //initialize global variables
         this.initGlobals = function () {
             var globals = Object.entries(_this.data);
@@ -25,6 +26,8 @@ var Generator = /** @class */ (function () {
             if (node === undefined)
                 return;
             _this.insideBlockCode = true;
+            if (node.name !== "HTMLElement")
+                _this.nestingLevel++;
             //@ts-ignore
             for (var _i = 0, _a = node.children; _i < _a.length; _i++) {
                 var child = _a[_i];
@@ -35,6 +38,8 @@ var Generator = /** @class */ (function () {
                 }
             }
             _this.insideBlockCode = false;
+            if (node.name !== "HTMLElement")
+                _this.nestingLevel--;
         };
         this.genHTMLElement = function (element) {
             _this.output += "template += `<" + element.tagName + "`\n";
@@ -72,6 +77,13 @@ var Generator = /** @class */ (function () {
             var code = predicate + "{}";
             var tmp = "let template;\n";
             try {
+                var testCode = _this.output + code;
+                for (var i = 0; i < _this.nestingLevel; i++) {
+                    testCode += "}";
+                }
+                testCode += "\nreturn template;";
+                // check for syntax errors
+                new Function("template", "data", testCode)("", _this.data);
                 _this.output += "\n" + predicate + "{\n";
                 _this.genChildren(node);
                 _this.output += "\n}\n";
@@ -85,15 +97,23 @@ var Generator = /** @class */ (function () {
             var predicate = node.predicate.slice(2, -2).trim();
             var code = predicate + "{}";
             try {
-                _this.output += "\n" + predicate + "{\n";
-                _this.genChildren(node);
-                _this.output += "\n}\n";
+                // console.log(this.output + code);
+                var testCode = _this.output + code;
+                for (var i = 0; i < _this.nestingLevel; i++) {
+                    testCode += "}";
+                }
+                testCode += "\nreturn template;";
+                // check for syntax errors
+                new Function("template", "data", testCode)("", _this.data);
             }
             catch (error) {
-                console.log(error);
-                _this.errors.push("[ " + _this.filePath + " ] You have syntax error at line: " + node.line + ", file: " + _this.filePath +
-                    (", src: {% " + predicate + " %}\n\nTip: Make sure that you write valid JavaScript code\n\n"));
+                _this.errors.push(error);
+                // this.errors.push(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
+                //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
             }
+            _this.output += "\n" + predicate + "{\n";
+            _this.genChildren(node);
+            _this.output += "\n}\n";
         };
         this.genSelfClose = function (node) {
             _this.genHTMLElement(node);

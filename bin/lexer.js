@@ -80,8 +80,6 @@ var Lexer = /** @class */ (function () {
             _this.createToken("Text", val);
             if (_this.token)
                 _this.tokens.push(_this.token);
-            // if (val.search("\n") !== -1)
-            //     console.log(this.token);
             _this.eat(val);
         };
         while (!this.error.length && !this.eof) {
@@ -312,9 +310,6 @@ var Lexer = /** @class */ (function () {
                     ("at line " + this.line + " col " + this.col + "."));
             }
             var header = this.src.substring(0, this.src.search(/%}/) + 2);
-            // const match = this.src.match(if_reg)
-            // const val = match && match[0] || ""
-            // this.createToken("IfStatement", val)
             this.createToken("IfStatement", header);
             return true;
         },
@@ -331,9 +326,6 @@ var Lexer = /** @class */ (function () {
                     ("at line " + this.line + " col " + this.col + "."));
             }
             var header = this.src.substring(0, this.src.search(/%}/) + 2);
-            // const match = this.src.match(if_reg)
-            // const val = match && match[0] || ""
-            // this.createToken("IfStatement", val)
             this.createToken("ElseIfStatement", header);
             return true;
         },
@@ -503,13 +495,11 @@ var Lexer = /** @class */ (function () {
                 match = this.src.match(attr_reg);
                 val = match && match[0] || "";
                 this.createToken("Attribute", val);
-                // return true
             }
             else if (this.is(attr_reg_2)) {
                 match = this.src.match(attr_reg_2);
                 val = match && match[0] || "";
                 this.createToken("Attribute", val);
-                // return true
             }
             else
                 return false;
@@ -552,8 +542,6 @@ var Lexer = /** @class */ (function () {
     });
     Object.defineProperty(Lexer.prototype, "whiteSpace", {
         get: function () {
-            // console.log("Lexer -> whiteSpace()")
-            // console.log(`line ${this.line}, col ${this.col}`)
             return this.is(/[ \s]+/);
         },
         enumerable: false,
@@ -564,8 +552,6 @@ var Lexer = /** @class */ (function () {
             var _a;
             if (!this.has("\n"))
                 return false;
-            // if (this.src.match("\n")?.index !== 0)
-            //     console.log(this.src.match("\n"));
             if (((_a = this.src.match("\n")) === null || _a === void 0 ? void 0 : _a.index) !== 0)
                 return false;
             return true;
