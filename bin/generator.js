@@ -119,10 +119,12 @@ var Generator = /** @class */ (function () {
             _this.genHTMLElement(node);
         };
         this.initGlobals();
-        if (ast.name === "Program")
+        if (ast.name === "Program") {
             this.init();
-        else
+        }
+        else {
             this.raise("[Generator] AST is corrupted or invalid");
+        }
     }
     Generator.prototype.init = function (node) {
         node || (node = this.ast);
