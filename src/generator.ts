@@ -137,7 +137,7 @@ export class Generator {
 
             this.output += "\n}\n"
         } catch (error) {
-            this.errors.push(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
+            this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
                 `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
         }
 
@@ -164,8 +164,8 @@ export class Generator {
             new Function("template", "data", testCode)("", this.data)
 
         } catch (error) {
-            this.errors.push(error)
-            // this.errors.push(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
+            this.raise(error);
+            // this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
             //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
         }
 
@@ -180,7 +180,7 @@ export class Generator {
     }
 
     private raise(msg: string) {
-        this.errors.push(msg)
+        this.errors.push(msg);
     }
 }
 
