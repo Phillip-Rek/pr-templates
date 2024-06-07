@@ -56,12 +56,7 @@ function engine(app) {
             app.set('views', 'views');
         }
         if (typeof app.locals.settings.views === "string") {
-            if (app.locals.settings.views.startsWith("/")) {
-                views = app.locals.settings.views || "";
-            }
-            else {
-                views = app.locals.settings.views || "";
-            }
+            views = app.locals.settings.views || "";
         }
         fs.readFile(filePath, { encoding: "utf8" }, function (err, content) {
             if (err)

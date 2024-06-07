@@ -46,12 +46,7 @@ export function engine(app: { set: (key: string, val: unknown) => {}, locals: { 
         if (!app.locals.settings.views) { app.set('views', 'views'); }
 
         if (typeof app.locals.settings.views === "string") {
-            if (app.locals.settings.views.startsWith("/")) {
-                views = app.locals.settings.views || "";
-            }
-            else {
-                views = app.locals.settings.views || "";
-            }
+            views = app.locals.settings.views || "";
         }
 
 
