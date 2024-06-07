@@ -1,5 +1,1 @@
-export function engine(): (
-    filePath: string,
-    data: Partial<{}>,
-    callback: (arg1: string, arg2: string) => {}
-) => void
+export function engine(app: any): (filePath: any, data: any, callback: any) => void
