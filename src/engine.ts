@@ -52,8 +52,7 @@ export function engine(app: { set: (key: string, val: unknown) => {}, locals: { 
 
         fs.readFile(filePath, { encoding: "utf8" }, (err, content) => {
             if (err) return callback(err);
-            let res = render(filePath, content, data, views);
-            return callback(null, res);
+            return callback(null, render(filePath, content, data, views));
         });
 
     }

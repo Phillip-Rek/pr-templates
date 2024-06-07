@@ -61,8 +61,7 @@ function engine(app) {
         fs.readFile(filePath, { encoding: "utf8" }, function (err, content) {
             if (err)
                 return callback(err);
-            var res = render(filePath, content, data, views);
-            return callback(null, res);
+            return callback(null, render(filePath, content, data, views));
         });
     };
 }
