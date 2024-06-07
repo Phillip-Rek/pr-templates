@@ -164,9 +164,9 @@ export class Generator {
             new Function("template", "data", testCode)("", this.data)
 
         } catch (error) {
-            this.raise(error);
-            // this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
-            //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
+            // this.raise(error);
+            this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
+                `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
         }
 
         this.output += "\n" + predicate + "{\n"
