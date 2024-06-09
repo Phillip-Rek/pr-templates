@@ -51,12 +51,14 @@ function render(filePath, srcCode, data, views) {
 }
 function engine(app) {
     return function (filePath, data, callback) {
-        var views = "";
-        if (!app.locals.settings.views) {
-            app.set('views', 'views');
-        }
-        if (typeof app.locals.settings.views === "string") {
-            views = app.locals.settings.views || "";
+        var views = "views";
+        if (app.locals && app.locals.settings) {
+            if (!app.locals.settings.views && app.locals.settings.views) {
+                app.set('views', 'views');
+            }
+            if (typeof app.locals.settings.views === "string") {
+                views = app.locals.settings.views || "";
+            }
         }
         fs.readFile(filePath, { encoding: "utf8" }, function (err, content) {
             if (err)

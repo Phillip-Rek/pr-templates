@@ -37,21 +37,28 @@ function render(filePath: string, srcCode: string, data: {}, views: string) {
     return template && template("", data);
 }
 
-export function engine(app: { set: (key: string, val: unknown) => {}, locals: { settings: Record<string, string | {} | (() => any)> } }) {
+// only add properties that we'll need in this case
+interface BasicAppProperties {
+    set: (key: string, val: unknown) => {},
+    locals: { settings: Record<string, string | {} | (() => any)> }
+}
+
+export function engine(app: BasicAppProperties) {
 
     return (filePath: string, data: {}, callback: (arg: any, arg2?: any) => string) => {
 
-        let views = "";
-
-        if (!app.locals.settings.views) { app.set('views', 'views'); }
-
-        if (typeof app.locals.settings.views === "string") {
-            views = app.locals.settings.views || "";
+        var views = "views";
+        if (app.locals && app.locals.settings) {
+            if (!app.locals.settings.views && app.locals.settings.views) {
+                app.set('views', 'views');
+            }
+            if (typeof app.locals.settings.views === "string") {
+                views = app.locals.settings.views || "";
+            }
         }
-
-
-        fs.readFile(filePath, { encoding: "utf8" }, (err, content) => {
-            if (err) return callback(err);
+        fs.readFile(filePath, { encoding: "utf8" }, function (err, content) {
+            if (err)
+                return callback(err);
             return callback(null, render(filePath, content, data, views));
         });
 
@@ -62,13 +69,13 @@ export function engine(app: { set: (key: string, val: unknown) => {}, locals: { 
 export function compiler(srcCode: string, data: {}, filePath: string, views: string = "") {
 
     const lexer = new Lexer(srcCode, filePath, views)
-    let tokens = lexer.tokens
+    let tokens = lexer.tokens;
 
     const parser = new Parser(tokens, true)
-    let ast = parser.ast
+    let ast = parser.ast;
 
     const gen = new Generator(ast, data, filePath);
-    let output = gen.output
+    let output = gen.output;
 
     let template = new Function("template", "data", output)
     return template("", data)

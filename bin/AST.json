@@ -1,1 +1,113 @@
-[{"name":"ForStatement","predicate":"{% for(let post of posts) %}","line":2,"col":0,"children":[{"name":"HTMLElement","tagName":"div","line":3,"col":0,"attributes":["class=\"post\""],"children":[{"name":"SelfClose","tagName":"img","line":4,"col":4,"attributes":["loading=\"lazy\"","width=\"300px\"","alt=\"nothing\""],"children":[]},{"name":"HTMLElement","tagName":"div","line":5,"col":4,"attributes":["class=\"post-details\""],"children":[{"name":"HTMLElement","tagName":"a","line":6,"col":8,"attributes":[],"children":[{"name":"HTMLElement","tagName":"b","line":7,"col":12,"attributes":[],"children":[{"name":"DynamicData","val":"{{ post.title }}","line":7,"col":15}]}]},{"name":"HTMLElement","tagName":"p","line":9,"col":8,"attributes":[],"children":[{"name":"DynamicData","val":"{{ post.description }}","line":9,"col":11}]},{"name":"HTMLElement","tagName":"span","line":10,"col":8,"attributes":[],"children":[{"name":"DynamicData","val":"{{ post.date }}","line":10,"col":14}]},{"name":"HTMLElement","tagName":"form","line":11,"col":8,"attributes":[],"children":[{"name":"Text","val":"action=\"$","line":11,"col":14}]}]}]}]}]
+[
+    {
+        "name": "ForStatement",
+        "predicate": "{% for(let post of posts) %}",
+        "line": 2,
+        "col": 0,
+        "children": [
+            {
+                "name": "HTMLElement",
+                "tagName": "div",
+                "line": 3,
+                "col": 0,
+                "attributes": [
+                    "class=\"post\""
+                ],
+                "children": [
+                    {
+                        "name": "SelfClose",
+                        "tagName": "img",
+                        "line": 4,
+                        "col": 4,
+                        "attributes": [
+                            "loading=\"lazy\"",
+                            "width=\"300px\"",
+                            "alt=\"nothing\""
+                        ],
+                        "children": []
+                    },
+                    {
+                        "name": "HTMLElement",
+                        "tagName": "div",
+                        "line": 5,
+                        "col": 4,
+                        "attributes": [
+                            "class=\"post-details\""
+                        ],
+                        "children": [
+                            {
+                                "name": "HTMLElement",
+                                "tagName": "a",
+                                "line": 6,
+                                "col": 8,
+                                "attributes": [],
+                                "children": [
+                                    {
+                                        "name": "HTMLElement",
+                                        "tagName": "b",
+                                        "line": 7,
+                                        "col": 12,
+                                        "attributes": [],
+                                        "children": [
+                                            {
+                                                "name": "DynamicData",
+                                                "val": "{{ post.title }}",
+                                                "line": 7,
+                                                "col": 15
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "HTMLElement",
+                                "tagName": "p",
+                                "line": 9,
+                                "col": 8,
+                                "attributes": [],
+                                "children": [
+                                    {
+                                        "name": "DynamicData",
+                                        "val": "{{ post.description }}",
+                                        "line": 9,
+                                        "col": 11
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "HTMLElement",
+                                "tagName": "span",
+                                "line": 10,
+                                "col": 8,
+                                "attributes": [],
+                                "children": [
+                                    {
+                                        "name": "DynamicData",
+                                        "val": "{{ post.date }}",
+                                        "line": 10,
+                                        "col": 14
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "HTMLElement",
+                                "tagName": "form",
+                                "line": 11,
+                                "col": 8,
+                                "attributes": [],
+                                "children": [
+                                    {
+                                        "name": "Text",
+                                        "val": "action=\"$",
+                                        "line": 11,
+                                        "col": 14
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
