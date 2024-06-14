@@ -82,7 +82,7 @@ var Generator = /** @class */ (function () {
                     testCode += "}";
                 }
                 testCode += "\nreturn template;";
-                // check for syntax errors
+                // check for errors
                 new Function("template", "data", testCode)("", _this.data);
                 _this.output += "\n" + predicate + "{\n";
                 _this.genChildren(node);
@@ -90,27 +90,22 @@ var Generator = /** @class */ (function () {
             }
             catch (error) {
                 _this.raise(error + (", line: " + node.line + ", file: " + _this.filePath + ", src: {% " + predicate + " %}"));
-                // this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
-                //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
             }
         };
         this.genIfStatement = function (node) {
             var predicate = node.predicate.slice(2, -2).trim();
             var code = predicate + "{}";
             try {
-                // console.log(this.output + code);
                 var testCode = _this.output + code;
                 for (var i = 0; i < _this.nestingLevel; i++) {
                     testCode += "}";
                 }
                 testCode += "\nreturn template;";
-                // check for syntax errors
+                // check for errors
                 new Function("template", "data", testCode)("", _this.data);
             }
             catch (error) {
                 _this.raise(error + (", line: " + node.line + ", file: " + _this.filePath + ", src: {% " + predicate + " %}"));
-                // this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
-                //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
             }
             _this.output += "\n" + predicate + "{\n";
             _this.genChildren(node);

@@ -128,7 +128,7 @@ export class Generator {
             }
 
             testCode += "\nreturn template;"
-            // check for syntax errors
+            // check for errors
             new Function("template", "data", testCode)("", this.data)
 
 
@@ -139,8 +139,6 @@ export class Generator {
             this.output += "\n}\n"
         } catch (error) {
             this.raise(error + `, line: ${node.line}, file: ${this.filePath}, src: {% ${predicate} %}`);
-            // this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
-            //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
         }
 
     }
@@ -151,9 +149,6 @@ export class Generator {
         const code = predicate + "{}";
 
         try {
-
-            // console.log(this.output + code);
-
             let testCode = this.output + code
 
             for (let i = 0; i < this.nestingLevel; i++) {
@@ -162,13 +157,11 @@ export class Generator {
 
             testCode += "\nreturn template;"
 
-            // check for syntax errors
+            // check for errors
             new Function("template", "data", testCode)("", this.data)
 
         } catch (error) {
             this.raise(error + `, line: ${node.line}, file: ${this.filePath}, src: {% ${predicate} %}`);
-            // this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
-            //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
         }
 
         this.output += "\n" + predicate + "{\n"
