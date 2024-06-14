@@ -89,8 +89,9 @@ var Generator = /** @class */ (function () {
                 _this.output += "\n}\n";
             }
             catch (error) {
-                _this.raise("[ " + _this.filePath + " ] You have syntax error at line: " + node.line + ", file: " + _this.filePath +
-                    (", src: {% " + predicate + " %}\n\nTip: Make sure that you write valid JavaScript code\n\n"));
+                _this.raise(error + (", line: " + node.line + ", file: " + _this.filePath));
+                // this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
+                //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
             }
         };
         this.genIfStatement = function (node) {
@@ -107,7 +108,6 @@ var Generator = /** @class */ (function () {
                 new Function("template", "data", testCode)("", _this.data);
             }
             catch (error) {
-                // this.raise(error);
                 _this.raise("[ " + _this.filePath + " ] You have syntax error at line: " + node.line + ", file: " + _this.filePath +
                     (", src: {% " + predicate + " %}\n\nTip: Make sure that you write valid JavaScript code\n\n"));
             }

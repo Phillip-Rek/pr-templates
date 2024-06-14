@@ -40,7 +40,9 @@ function fakeRender(filePath: string, srcCode: string, data: {}) {
 
 
 const src = `
-{% include("./index.html") %}
+{% for(let user of users) %}
+    {{ user }}
+{% end_for %}
 
 `
 // const expectedOutput = `0134`
@@ -49,8 +51,9 @@ const result = fakeRender(
     "file.html",
     src,
     {
-        url: "/"
+        url: "/",
     },
+
 )
 
 console.log(result)

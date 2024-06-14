@@ -25,10 +25,10 @@ function fakeRender(filePath, srcCode, data) {
     //@ts-ignore
     return templates.get(filePath)("", data);
 }
-var src = "\n{% include(\"./index.html\") %}\n\n";
+var src = "\n{% for(let user of users) %}\n    {{ user }}\n{% end_for %}\n\n";
 // const expectedOutput = `0134`
 var result = fakeRender("file.html", src, {
-    url: "/"
+    url: "/",
 });
 console.log(result);
 console.log("TEST FILE");
