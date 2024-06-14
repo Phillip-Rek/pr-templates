@@ -109,8 +109,8 @@ var Generator = /** @class */ (function () {
             }
             catch (error) {
                 _this.raise(error + (", line: " + node.line + ", file: " + _this.filePath));
-                _this.raise("[ " + _this.filePath + " ] You have syntax error at line: " + node.line + ", file: " + _this.filePath +
-                    (", src: {% " + predicate + " %}\n\nTip: Make sure that you write valid JavaScript code\n\n"));
+                // this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
+                //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
             }
             _this.output += "\n" + predicate + "{\n";
             _this.genChildren(node);
