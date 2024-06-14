@@ -108,7 +108,7 @@ var Generator = /** @class */ (function () {
                 new Function("template", "data", testCode)("", _this.data);
             }
             catch (error) {
-                _this.raise(error + (", line: " + node.line + ", file: " + _this.filePath));
+                _this.raise(error + (", line: " + node.line + ", file: " + _this.filePath + ", src: {% " + predicate + " %}"));
                 // this.raise(`[ ${this.filePath} ] You have syntax error at line: ${node.line}, file: ${this.filePath}` +
                 //     `, src: {% ${predicate} %}\n\nTip: Make sure that you write valid JavaScript code\n\n`)
             }
